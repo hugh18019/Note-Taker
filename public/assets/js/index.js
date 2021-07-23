@@ -26,8 +26,7 @@ const hide = (elem) => {
 let activeNote = {};
 
 const getNotes = () =>
-
-  fetch('/notes', {
+  fetch('http://localhost:3001/notes', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +34,7 @@ const getNotes = () =>
   });
 
 const saveNote = (note) =>
-  fetch('/api/notes', {
+  fetch('http://localhost:3001/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -54,10 +53,9 @@ const deleteNote = (id) =>
 const renderActiveNote = () => {
   hide(saveNoteBtn);
 
-  console.log( "Content of the activeNote array is:",  activeNote );
+  console.log('Content of the activeNote object is:', activeNote);
 
-
-  if (activeNote.id) {
+  if (activeNote) {
     noteTitle.setAttribute('readonly', true);
     noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
@@ -176,15 +174,14 @@ const renderNoteList = async (notes) => {
 
 // Gets notes from the db and renders them to the sidebar
 // const getAndRenderNotes = () => getNotes().then(renderNoteList);
-const getAndRenderNotes = () => 
-  getNotes().then( (response) => renderNoteList(response) );
-
+const getAndRenderNotes = () =>
+  getNotes().then((response) => renderNoteList(response));
 
 if (window.location.pathname === '/notes.html') {
-  console.log( saveNoteBtn );
-  console.log( newNoteBtn );
-  console.log( noteTitle );
-  console.log( noteText );
+  console.log(saveNoteBtn);
+  console.log(newNoteBtn);
+  console.log(noteTitle);
+  console.log(noteText);
 
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
