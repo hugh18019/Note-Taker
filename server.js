@@ -16,10 +16,11 @@ app.use(express.static('public'));
 app.get('/notes', (req, res) => res.json(noteData));
 
 app.post('/api/notes', (req, res) => {
-  const { title, text } = req.body;
+  const { id, title, text } = req.body;
 
   if (title && text) {
     const newNote = {
+      id,
       title,
       text,
     };

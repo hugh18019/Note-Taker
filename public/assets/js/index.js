@@ -3,6 +3,7 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+let noteCount = 0;
 
 if (window.location.pathname === '/notes.html') {
   noteTitle = document.querySelector('.note-title');
@@ -25,13 +26,16 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
-const getNotes = () =>
-  fetch('http://localhost:3001/notes', {
+const getNotes = async () => {
+  const result = fetch('http://localhost:3001/notes', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  // const json = await result.json();
+  return result;
+};
 
 const saveNote = (note) =>
   fetch('http://localhost:3001/api/notes', {
@@ -69,7 +73,9 @@ const renderActiveNote = () => {
 };
 
 const handleNoteSave = () => {
+  noteCount++;
   const newNote = {
+    id: noteCount,
     title: noteTitle.value,
     text: noteText.value,
   };
@@ -174,8 +180,9 @@ const renderNoteList = async (notes) => {
 
 // Gets notes from the db and renders them to the sidebar
 // const getAndRenderNotes = () => getNotes().then(renderNoteList);
-const getAndRenderNotes = () =>
+const getAndRenderNotes = () => {
   getNotes().then((response) => renderNoteList(response));
+};
 
 if (window.location.pathname === '/notes.html') {
   console.log(saveNoteBtn);
