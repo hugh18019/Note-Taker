@@ -3,6 +3,7 @@ const path = require('path');
 const noteData = require('./db/db.json');
 const fs = require('fs');
 const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
+// const getNotes = require('./public/assets/js/index');
 const PORT = 3001;
 
 const app = express();
@@ -41,6 +42,28 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-app.app.listen(PORT, () => {
+app.delete(`/api/notes/:id`, (req, res) => {
+  var noteId = req.params.id;
+  var noteList = [];
+
+  readFromFile('./db/db.json').then(function (data) {
+    noteList = JSON.parse(data);
+    removeNote(noteList, noteId);
+  });
+});
+
+function removeNote(noteList, noteId) {
+  var removeIdx = 0;
+  for (let i = 0; i < noteList.length; i++) {
+    // console.log(noteList[i].id);
+    // console.log(noteId);
+    if (noteList[i].id == noteId) {
+      removeIdx = i;
+    }
+  }
+  console.log(removeIdx);
+}
+
+app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });

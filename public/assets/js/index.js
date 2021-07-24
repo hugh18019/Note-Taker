@@ -190,7 +190,6 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 // const getAndRenderNotes = () => getNotes().then(renderNoteList);
 const getAndRenderNotes = () => {
-  console.log('peter');
   getNotes().then(
     //function (response) {
     //console.log(response.json());
@@ -212,3 +211,5 @@ if (window.location.pathname === '/notes.html') {
 }
 
 getAndRenderNotes();
+
+// module.exports = getNotes();
