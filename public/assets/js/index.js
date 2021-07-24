@@ -3,7 +3,6 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-let noteCount = 0;
 
 if (window.location.pathname === '/notes.html') {
   noteTitle = document.querySelector('.note-title');
@@ -27,7 +26,7 @@ const hide = (elem) => {
 let activeNote = {};
 
 const getNotes = async () => {
-  const result = await fetch('http://localhost:3001/notes', {
+  const result = await fetch('/api/notes', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -75,9 +74,7 @@ const renderActiveNote = () => {
 };
 
 const handleNoteSave = () => {
-  noteCount++;
   const newNote = {
-    id: noteCount,
     title: noteTitle.value,
     text: noteText.value,
   };

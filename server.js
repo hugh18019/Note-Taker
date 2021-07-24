@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
-const noteData = require('./db/db.json');
-const fs = require('fs');
+// const noteData = require('./db/db.json');
+// const fs = require('fs');
 const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
-// const getNotes = require('./public/assets/js/index');
+const uuid = require('./helpers/uuid');
 const PORT = 3001;
 
 const app = express();
@@ -13,18 +13,26 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
+// app.get('/notes', (req, res) =>
+//   res.sendFile(path.join(__dirname, './public/notes.html'))
+// );
+
+// app.get('*', (req, res) =>
+//   res.sendFile(path.join(__dirname, './public/index.html'))
+// );
+
 // GET Route for notes page
 // app.get('/notes', (req, res) => res.json({body});
-app.get('/notes', (req, res) =>
+app.get('/api/notes', (req, res) =>
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
 );
 
 app.post('/api/notes', (req, res) => {
-  const { id, title, text } = req.body;
+  const { title, text } = req.body;
 
   if (title && text) {
     const newNote = {
-      id,
+      id: uuid(),
       title,
       text,
     };
